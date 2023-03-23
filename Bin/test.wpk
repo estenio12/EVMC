@@ -1,3 +1,7 @@
-file reader test
+// # jump to 
+jmp 0x00a3 // teste
+   /// qwueyqwuieqweb
+mov 0x00 0x01
 
-//la ele
+// # hoje
+mov 0x01 0x00

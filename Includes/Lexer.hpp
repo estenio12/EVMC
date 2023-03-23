@@ -7,6 +7,8 @@
 #pragma once
 
 #include "../Helpers/Definition.hpp"
+#include "../Helpers/Tools.hpp"
+#include "../Includes/Output.hpp"
 
 class Lexer
 {

@@ -9,12 +9,16 @@
 #include <fstream>
 #include "../Helpers/Definition.hpp"
 #include "../Includes/Output.hpp"
+#include "../Includes/Lexer.hpp"
 
 class Assembler
 {
     private:
         std::fstream fileHandler;
         std::string path;
+
+    private:
+        Lexer* lexer;
     
     private:
         int lineCounter = 0;
@@ -27,5 +31,6 @@ class Assembler
         void Run();
 
     private:
-        bool IsCommentedLine(std::string );
+        bool IsNotEmptyLine(std::string );
+        std::string SanitizerLine(std::string& );
 };

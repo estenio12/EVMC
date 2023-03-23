@@ -2,6 +2,7 @@
 
 Assembler::Assembler(std::string path):path(path)
 {
+    this->lexer = new Lexer();
     this->fileHandler.open(path, std::ios::in | std::ios::binary);
 }
 
@@ -16,9 +17,16 @@ void Assembler::Run()
     {
         while(std::getline(this->fileHandler, line))
         {
-            if(this->IsCommentedLine(line) == true)
+            this->lineCounter++;
+
+            if(this->IsNotEmptyLine(line))
             {
-                Output::PrintSuccess(line);
+                auto nline = this->SanitizerLine(line);
+
+                if(this->IsNotEmptyLine(nline))
+                {
+                    this->lexer->Tokenize(nline);
+                }
             }
         }
     }
@@ -28,27 +36,51 @@ void Assembler::Run()
     }
 }
 
-bool Assembler::IsCommentedLine(std::string line)
-{   
-    for(int i = 0; i < line.size(); i++)
+bool Assembler::IsNotEmptyLine(std::string line)
+{
+    for(char letter : line)
     {
-        if(line[i] == Delimiter::comment &&
-           line[i + 1] == Delimiter::comment)
+        if(letter != Delimiter::whitespace && 
+           letter != Delimiter::returning && 
+           letter != Delimiter::tabulation && 
+           letter != Delimiter::newline )
         {
             return true;
-        }
-
-        if(line[i] != Delimiter::whitespace &&
-           line[i] != Delimiter::returning &&
-           line[i] != Delimiter::newline &&
-           line[i] != Delimiter::tabulation)
-        {
-            return false;
         }
     }
 
     return false;
 }
 
+std::string Assembler::SanitizerLine(std::string& line)
+{
+    std::string nline;
+
+    for(int i = 0; i < line.size(); i++)
+    {
+        if(line[i] == Delimiter::comment &&
+           line[i + 1] == Delimiter::comment)
+        {
+            return nline;
+        }
+
+        if(line[i] != Delimiter::newline &&
+           line[i] != Delimiter::returning &&
+           line[i] != Delimiter::tabulation)
+        {
+            if(line[i] == Delimiter::whitespace &&
+               line[i + 1] != Delimiter::whitespace)
+            {
+                nline.push_back(line[i]);
+            }
+            else
+            {
+                nline.push_back(line[i]);
+            }
+        }
+    }
+
+    return nline;
+}
 
 

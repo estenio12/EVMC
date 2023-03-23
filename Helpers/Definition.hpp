@@ -18,7 +18,7 @@ namespace Data
 namespace Delimiter
 {
     const char whitespace = ' ';
-    const char returning    = '\r';
+    const char returning  = '\r';
     const char tabulation = '\t';
     const char newline    = '\n';
     const char comment    = '/';

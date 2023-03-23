@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "../Helpers/Definition.hpp"
 #include "../Helpers/Tools.hpp"
 #include "../Includes/Output.hpp"
@@ -20,6 +22,6 @@ class Lexer
         Data::Token_list Tokenize(std::string );
 
     private:
-        
+        Token_list_item SpliToken(std::string );
 
 };

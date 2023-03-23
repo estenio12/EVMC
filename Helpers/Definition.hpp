@@ -13,6 +13,7 @@
 namespace Data
 {
     using Token_list = std::vector<Token*>;
+    using Token_list_item = Token;
 }
 
 namespace Delimiter

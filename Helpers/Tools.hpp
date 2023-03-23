@@ -10,7 +10,7 @@
 
 namespace Tools
 {
-    static std::string toUpperCase(std::string value)
+    static std::string ToUpperCase(std::string value)
     {
         std::string word; 
 

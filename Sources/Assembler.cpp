@@ -25,7 +25,8 @@ void Assembler::Run()
 
                 if(this->IsNotEmptyLine(nline))
                 {
-                    this->lexer->Tokenize(nline);
+                    auto token  = this->lexer->Tokenize(nline);
+                    auto binary = this->parser->Parse(token);
                 }
             }
         }
@@ -58,26 +59,31 @@ std::string Assembler::SanitizerLine(std::string& line)
 
     for(int i = 0; i < line.size(); i++)
     {
-        if(line[i] == Delimiter::comment &&
-           line[i + 1] == Delimiter::comment)
-        {
-            return nline;
-        }
+       if(i == 0 && line[0] == Delimiter::whitespace ||
+          line[i] == Delimiter::whitespace && 
+          line[i - 1] == Delimiter::whitespace )
+       {
+            continue;
+       }
+       else
+       {
+            if((i + 1) < line.size())
+            {
+                if(line[i] == Delimiter::backslash &&
+                   line[i + 1] == Delimiter::backslash)
+                {
+                    return nline;
+                }
+            }
 
-        if(line[i] != Delimiter::newline &&
-           line[i] != Delimiter::returning &&
-           line[i] != Delimiter::tabulation)
-        {
-            if(line[i] == Delimiter::whitespace &&
-               line[i + 1] != Delimiter::whitespace)
+            if(line[i] != Delimiter::newline &&
+               line[i] != Delimiter::returning &&
+               line[i] != Delimiter::tabulation)
             {
                 nline.push_back(line[i]);
             }
-            else
-            {
-                nline.push_back(line[i]);
-            }
-        }
+       }
+        
     }
 
     return nline;

@@ -19,9 +19,9 @@ class Lexer
         ~Lexer();
 
     public:
-        Data::Token_list Tokenize(std::string );
+        Token* Tokenize(std::string );
 
     private:
-        Token_list_item SpliToken(std::string );
+        Token* SpliToken(std::string );
 
 };

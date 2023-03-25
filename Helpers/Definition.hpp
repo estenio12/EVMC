@@ -13,7 +13,7 @@
 namespace Data
 {
     using Token_list = std::vector<Token*>;
-    using Token_list_item = Token;
+    using Bin = std::string;
 }
 
 namespace Delimiter
@@ -22,5 +22,10 @@ namespace Delimiter
     const char returning  = '\r';
     const char tabulation = '\t';
     const char newline    = '\n';
-    const char comment    = '/';
+    const char backslash    = '/';
+}
+
+namespace Result
+{
+    const std::string error = "-1"; 
 }

@@ -4,18 +4,13 @@ Lexer::Lexer(){}
 
 Lexer::~Lexer(){}
 
-Data::Token_list Lexer::Tokenize(std::string line)
+Token* Lexer::Tokenize(std::string line)
 {
-    Data::Token_list list;
-
-    Output::Print(Tools::toUpperCase(line));
-
-    return list;
+    return this->SpliToken(line);
 }
 
-Token_list_item Lexer::SpliToken(std::string line)
+Token* Lexer::SpliToken(std::string line)
 {
-    Token_list_item tokens;
     std::string tempTokenList[3]{"", "", ""};
     std::string token = "";
     int index = 0;
@@ -38,11 +33,9 @@ Token_list_item Lexer::SpliToken(std::string line)
     {
         tempTokenList[2] = token;
     }
-
-    tokens = new Token_list_item(tempTokenList[0],
-                                 tempTokenList[1],
-                                 tempTokenList[2]);
-
-    return tokens;
+    
+    return new Token(tempTokenList[0],
+                     tempTokenList[1],
+                     tempTokenList[2]);
 }
 

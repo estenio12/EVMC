@@ -10,6 +10,7 @@
 #include "../Helpers/Definition.hpp"
 #include "../Includes/Output.hpp"
 #include "../Includes/Lexer.hpp"
+#include "../Includes/Parser.hpp"
 
 class Assembler
 {
@@ -19,6 +20,7 @@ class Assembler
 
     private:
         Lexer* lexer;
+        Parser* parser;
     
     private:
         int lineCounter = 0;

@@ -6,7 +6,10 @@
 
 #pragma once
 
+#include <iostream>
 #include "../Helpers/Definition.hpp"
+#include "../Helpers/Tools.hpp"
+#include "../Includes/Output.hpp"
 
 class Parser
 {
@@ -15,9 +18,10 @@ class Parser
         ~Parser();
 
     public:
-        Data::Bin Parse(Token* );
+        Data::Bin Parse(Data::Token_list );
 
     private:
-        bool Checker(Token* );
-        Data::Bin ConvertToBinary(Token* );
+        Data::Bin CodeGenerator(Token* );
+        bool CheckSyntax(Token* );
+        bool CheckSematic(Token* );
 };

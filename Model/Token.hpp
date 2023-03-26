@@ -9,17 +9,13 @@
 class Token
 {
     public:
-        std::string command; 
-        std::string param1; 
-        std::string param2; 
+        std::string type;
+        std::string value;
 
     public:
-        Token(std::string command, 
-              std::string param1, 
-              std::string param2):
-              command(command),
-              param1(param1),
-              param2(param2){}
-
+        Token(std::string type, 
+              std::string value):
+              type(type),
+              value(value){}
         ~Token(){}
 };

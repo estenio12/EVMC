@@ -4,24 +4,32 @@ Lexer::Lexer(){}
 
 Lexer::~Lexer(){}
 
-Token* Lexer::Tokenize(std::string line)
+Data::Token_list Lexer::Tokenize(std::string line)
 {
-    return this->SpliToken(line);
+    auto list = this->SpliToken(line);
+    Data::Token_list TList;
+
+    for(auto token : list)
+    {
+        TList.push_back(this->TokenIdentifier(Tools::ToUpperCase(token)));
+    }
+
+    list.clear();
+
+    return TList;
 }
 
-Token* Lexer::SpliToken(std::string line)
+std::vector<std::string> Lexer::SpliToken(std::string line)
 {
-    std::string tempTokenList[3]{"", "", ""};
+    std::vector<std::string> list;
     std::string token = "";
-    int index = 0;
 
     for(char letter : line)
     {
         if(letter == Delimiter::whitespace)
         {
-            tempTokenList[index] = token;
+            list.push_back(token);
             token.clear();
-            index++;
         }
         else
         {
@@ -29,13 +37,44 @@ Token* Lexer::SpliToken(std::string line)
         }
     }
 
-    if(token.size() != 0)
+    if(token.size() > 0)
     {
-        tempTokenList[2] = token;
+        list.push_back(token);
     }
     
-    return new Token(tempTokenList[0],
-                     tempTokenList[1],
-                     tempTokenList[2]);
+    return list;
 }
 
+Token* Lexer::TokenIdentifier(std::string token)
+{
+    const char REGISTER_SYMBOL = '$';
+
+    // # Check if is a keyword
+    for(auto keyword : LANG::KEYWORDS)
+    {
+        if(token == keyword)
+        {
+            return new Token(NAME::KEYWORD, token);
+        }
+    }
+
+    // # Check if is a register name
+    if(token[0] == REGISTER_SYMBOL)
+    {
+        return new Token(NAME::REGISTER, token);
+    }
+
+    // # Check if is a decimal number
+    if(Tools::IsDecimal(token))
+    {
+        return new Token(NAME::DECIMAL, token);
+    }
+
+    // # Check if is a hexadecimal number
+    if(Tools::IsHexadecimal(token))
+    {
+        return new Token(NAME::HEXADECIMAL, token);
+    }
+
+    return new Token(NAME::UNRECOGNIZED, token);
+}

@@ -4,23 +4,21 @@ Parser::Parser(){}
 
 Parser::~Parser(){}
 
-Data::Bin Parser::Parse(Token* token)
+Data::Bin Parser::Parse(Data::Token_list list)
 {
-    if(this->Checker(token))
+    for(auto token : list)
     {
-        return this->ConvertToBinary(token);
+        if(this->CheckSyntax(token) &&
+           this->CheckSematic(token))
+        {
+            return this->CodeGenerator(token);
+        }
     }
 
     return Result::error;
 }
 
-bool Parser::Checker(Token* token)
-{
-
-    return false;
-}
-
-Data::Bin Parser::ConvertToBinary(Token* token)
+Data::Bin Parser::CodeGenerator(Token* token)
 {
     return "";
 }

@@ -2,7 +2,8 @@
 
 Assembler::Assembler(std::string path):path(path)
 {
-    this->lexer = new Lexer();
+    this->lexer  = new Lexer();
+    this->parser = new Parser(&this->lineCounter);
     this->fileHandler.open(path, std::ios::in | std::ios::binary);
 }
 

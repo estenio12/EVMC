@@ -1,7 +1,7 @@
 // # jump to 
 jmp 0x00a3 // teste
    /// qwueyqwuieqweb
-mov $26 0x01
+mov $26 $2
 
 // # hoje
-mov 0x01 0x00
+STX 0x1F

@@ -78,7 +78,44 @@ namespace LANG
         "CLR", "OFF", "AND", 
         "OR",  "XOR", "NOT", 
         "NAND", "NOR", "XNOR"
-     };
+    };
+
+    static const uint8_t NOP = 0;
+    static const uint8_t LDX = 1;
+    static const uint8_t STX = 2;
+    
+    static const uint8_t MOV = 3;
+    static const uint8_t ADD = 4;
+    static const uint8_t SUB = 5;
+    
+    static const uint8_t MUL = 6;
+    static const uint8_t DIV = 7;
+    static const uint8_t JMP = 8;
+    
+    static const uint8_t JSR = 9;
+    static const uint8_t RTS = 10;
+    static const uint8_t CMP = 11;
+    
+    static const uint8_t BEQ = 12;
+    static const uint8_t BNE = 13;
+    static const uint8_t BGT = 14;
+    
+    static const uint8_t BLT = 15;
+    static const uint8_t BGE = 16;
+    static const uint8_t BLE = 17;
+    
+    static const uint8_t CLR = 18;
+    static const uint8_t OFF = 19;
+    static const uint8_t AND = 20;
+    
+    static const uint8_t OR  = 21;
+    static const uint8_t XOR = 22;
+    static const uint8_t NOT = 23;
+    
+    static const uint8_t NAND = 24;
+    static const uint8_t NOR  = 25;
+    static const uint8_t XNOR = 26;
+
 }
 
 namespace NAME
@@ -89,4 +126,5 @@ namespace NAME
     static std::string HEXADECIMAL  = "hexadecimal";
     static std::string UNRECOGNIZED = "unrecognized";
 }
+
 

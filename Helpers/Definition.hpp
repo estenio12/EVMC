@@ -29,3 +29,11 @@ namespace Result
 {
     const std::string error = "-1"; 
 }
+
+namespace OUTPUTTYPE
+{
+    static const uint8_t IO_ERROR    = 0;
+    static const uint8_t IO_WARNING  = 1;
+    static const uint8_t IO_SUCCESS  = 2;
+    static const uint8_t IO_STANDARD = 3;
+}

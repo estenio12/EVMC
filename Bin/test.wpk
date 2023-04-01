@@ -1,7 +1,1 @@
-// # jump to 
-jmp 0x00a3 // teste
-   /// qwueyqwuieqweb
-mov $26 $2
-
-// # hoje
-STX 0x1F
+BGE 2344 231322222222

@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <cmath>
 
 #include "../Helpers/SymbolTable.hpp"
 
@@ -243,3 +244,96 @@ namespace BinaryConverter
         return bin;
     }
 }
+
+namespace DecimalConverter
+{
+    static const int ERROR = -1;
+
+    static int FromHexadecimal(std::string value)
+    {
+        if(value.empty()) return ERROR;
+
+        value = Tools::Split(value, 'X')[1];
+
+        if(value.empty()) return ERROR;
+        
+        std::vector<std::pair<char, int>> map
+        {   
+            {'0', 0},  {'1', 1},  {'2', 2}, 
+            {'3', 3},  {'4', 4},  {'5', 5}, 
+            {'6', 6},  {'7', 7},  {'8', 8}, 
+            {'9', 9},  {'A', 10}, {'B', 11}, 
+            {'C', 12}, {'D', 13}, {'E', 14}, 
+            {'F', 15}
+        };
+
+        std::vector<int> operands;
+        int result = 0;
+        int base   = 0;
+        int index  = 0;
+        const int hexa_base = 16;
+
+        for(char letter : value)
+        {
+            for(auto item : map)
+            {
+                if(item.first == letter) 
+                {
+                    operands.push_back(item.second);
+                }
+            }
+        }
+    
+        for(int i = operands.size() - 1; i >= 0; i--)
+        {
+            base    = pow(hexa_base, i);
+            index   = i - (operands.size() - 1);
+            result += operands[abs(index)] * base;
+        }
+
+        return result;
+    }
+
+    static int FromRegister(std::string value)
+    {
+        if(value.empty()) return ERROR;
+
+        value = Tools::Split(value, '$')[1];
+
+        if(value.empty()) return ERROR;
+        
+        return std::stoi(value);
+    }
+
+    static int FromString(std::string value)
+    {
+        return std::stoi(value);
+    }
+}
+
+namespace SemanticTools
+{
+    static bool IsValidRegisterFromSetting(int target)
+    {
+        if(target <= SETTING::MAX_REGISTER &&
+           target >= SETTING::MIN_REGISTER )
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    static bool IsValidAddressFromSetting(int target)
+    {
+        if(target <= SETTING::MAX_ADDRESS &&
+           target >= SETTING::MIN_ADDRESS )
+        {
+            return true;
+        }
+
+        return false;
+    }
+}
+
+

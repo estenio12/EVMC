@@ -33,7 +33,7 @@ class Parser
     private:
         // Data::Bin CodeGenerator(Data::Token_list );
         bool SyntaxCheck(Data::Token_list );
-        // bool CheckSematic(Data::Token_list );
+        bool SematicCheck(Data::Token_list );
         void ThrowError(std::string, uint8_t );
         void PrintStackTrace();
         std::string BuildMessageSingleArgument(Data::Token_list );
@@ -43,6 +43,8 @@ class Parser
         std::string BaseMessageRegister();
         std::string BaseMessageAddress();
         std::string DefaultMessageArgumentErro();
+        std::string DefaultMessageOutOfAddressRange(std::string);
+        std::string DefaultMessageRegisterUnknow(std::string);
 
     // # Syntax
     private:
@@ -51,4 +53,13 @@ class Parser
         bool SyntaxCheckerSingleCommandParameter(Data::Token_list );
         bool SyntaxCheckerDoubleAddressParameter(Data::Token_list );
         bool SyntaxCheckerDoubleRegisterParameter(Data::Token_list );
+
+    // # Semantic
+    private:
+        bool SemanticCheckerSingleAddressParameter(Data::Token_list );
+        bool SemanticCheckerSingleRegisterParameter(Data::Token_list );
+        bool SemanticCheckerDoubleAddressParameter(Data::Token_list );
+        bool SemanticCheckerDoubleRegisterParameter(Data::Token_list );
+        bool SemanticCheckerMixed(Data::Token_list );
+
 };

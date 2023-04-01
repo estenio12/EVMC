@@ -2,10 +2,11 @@
 
 bool Parser::SematicCheck(Data::Token_list list)
 {
-    if(this->SemanticCheckerSingleAddressParameter(list)) return true;  
+    if(this->SemanticCheckerSingleAddressParameter(list)) return true;
     if(this->SemanticCheckerSingleRegisterParameter(list)) return true;  
     if(this->SemanticCheckerDoubleAddressParameter(list)) return true;  
-    if(this->SemanticCheckerDoubleRegisterParameter(list)) return true;  
+    if(this->SemanticCheckerDoubleRegisterParameter(list)) return true;
+    if(this->SemanticCheckerDoubleMixedParameter(list)) return true;
 
     return false;
 }
@@ -25,6 +26,12 @@ bool Parser::SemanticCheckerSingleAddressParameter(Data::Token_list list)
 
         if(list[FIRST_ARGUMENT]->type == NAME::DECIMAL)
         {
+            if(!SemanticTools::IsValidForConvert(list[FIRST_ARGUMENT]->value)) 
+            {
+                this->ThrowError(this->DefaultMessageInvalidDecimalRange(), OUTPUTTYPE::IO_ERROR);
+                return false;
+            }
+
             return SemanticTools::IsValidAddressFromSetting
             (
                 DecimalConverter::FromString(list[FIRST_ARGUMENT]->value)
@@ -104,6 +111,12 @@ bool Parser::SemanticCheckerDoubleAddressParameter(Data::Token_list list)
 
         if(list[FIRST_ARGUMENT]->type == NAME::DECIMAL)
         {
+            if(!SemanticTools::IsValidForConvert(list[FIRST_ARGUMENT]->value)) 
+            {
+                this->ThrowError(this->DefaultMessageInvalidDecimalRange(), OUTPUTTYPE::IO_ERROR);
+                return false;
+            }
+
             if(SemanticTools::IsValidAddressFromSetting(DecimalConverter::FromString(list[FIRST_ARGUMENT]->value)))
             {
                 FirstArgumentValid = true;
@@ -128,6 +141,12 @@ bool Parser::SemanticCheckerDoubleAddressParameter(Data::Token_list list)
 
         if(list[SECOND_ARGUMENT]->type == NAME::DECIMAL)
         {
+            if(!SemanticTools::IsValidForConvert(list[FIRST_ARGUMENT]->value)) 
+            {
+                this->ThrowError(this->DefaultMessageInvalidDecimalRange(), OUTPUTTYPE::IO_ERROR);
+                return false;
+            }
+
             if(SemanticTools::IsValidAddressFromSetting(DecimalConverter::FromString(list[SECOND_ARGUMENT]->value)))
             {
                 SecondArgumentValid = true;
@@ -157,11 +176,99 @@ bool Parser::SemanticCheckerSingleRegisterParameter(Data::Token_list list)
     return false;
 }
 
-bool Parser::SemanticCheckerMixed(Data::Token_list list)
+bool Parser::SemanticCheckerDoubleMixedParameter(Data::Token_list list)
 {
-    if(list[COMMAND]->value == LANG::KEYWORDS[LANG::LDX] ||
-       list[COMMAND]->value == LANG::KEYWORDS[LANG::STX] )
+    bool FirstArgumentValid  = false;
+    bool SecondArgumentValid = false;
+
+    if(list[COMMAND]->value == LANG::KEYWORDS[LANG::LDX] )
     {
-        
+        if(list[FIRST_ARGUMENT]->type == NAME::HEXADECIMAL)
+        {
+            if(SemanticTools::IsValidAddressFromSetting(DecimalConverter::FromHexadecimal(list[FIRST_ARGUMENT]->value)))
+            {
+                FirstArgumentValid = true;
+            }
+            else
+            {
+                this->ThrowError(this->DefaultMessageOutOfAddressRange(list[FIRST_ARGUMENT]->value), OUTPUTTYPE::IO_ERROR);        
+            }
+        }
+
+        if(list[FIRST_ARGUMENT]->type == NAME::DECIMAL)
+        {
+            if(!SemanticTools::IsValidForConvert(list[FIRST_ARGUMENT]->value)) 
+            {
+                this->ThrowError(this->DefaultMessageInvalidDecimalRange(), OUTPUTTYPE::IO_ERROR);
+                return false;
+            }
+
+            if(SemanticTools::IsValidAddressFromSetting(DecimalConverter::FromString(list[FIRST_ARGUMENT]->value)))
+            {
+                FirstArgumentValid = true;
+            }
+            else
+            {
+                this->ThrowError(this->DefaultMessageOutOfAddressRange(list[FIRST_ARGUMENT]->value), OUTPUTTYPE::IO_ERROR);        
+            }
+        }
+    
+        if(SemanticTools::IsValidRegisterFromSetting(DecimalConverter::FromRegister(list[SECOND_ARGUMENT]->value)))
+        {
+            SecondArgumentValid = true;
+        }
+        else
+        {
+            this->ThrowError(this->DefaultMessageRegisterUnknow(list[SECOND_ARGUMENT]->value), OUTPUTTYPE::IO_ERROR);        
+        }
     }
+
+    if(list[COMMAND]->value == LANG::KEYWORDS[LANG::STX] )
+    {
+        if(SemanticTools::IsValidRegisterFromSetting(DecimalConverter::FromRegister(list[FIRST_ARGUMENT]->value)))
+        {
+            FirstArgumentValid = true;
+        }
+        else
+        {
+            this->ThrowError(this->DefaultMessageRegisterUnknow(list[FIRST_ARGUMENT]->value), OUTPUTTYPE::IO_ERROR);        
+        }
+
+
+        if(list[SECOND_ARGUMENT]->type == NAME::HEXADECIMAL)
+        {
+            Output::Print("entrei");
+            if(SemanticTools::IsValidAddressFromSetting(DecimalConverter::FromHexadecimal(list[SECOND_ARGUMENT]->value)))
+            {
+                SecondArgumentValid = true;
+            }
+            else
+            {
+                this->ThrowError(this->DefaultMessageOutOfAddressRange(list[SECOND_ARGUMENT]->value), OUTPUTTYPE::IO_ERROR);        
+            }
+        }
+
+
+        if(list[SECOND_ARGUMENT]->type == NAME::DECIMAL)
+        {
+            if(!SemanticTools::IsValidForConvert(list[FIRST_ARGUMENT]->value)) 
+            {
+                this->ThrowError(this->DefaultMessageInvalidDecimalRange(), OUTPUTTYPE::IO_ERROR);
+                return false;
+            }
+            
+            if(SemanticTools::IsValidAddressFromSetting(DecimalConverter::FromString(list[SECOND_ARGUMENT]->value)))
+            {
+                SecondArgumentValid = true;
+            }
+            else
+            {
+                this->ThrowError(this->DefaultMessageOutOfAddressRange(list[SECOND_ARGUMENT]->value), OUTPUTTYPE::IO_ERROR);        
+            }
+        }
+    
+    }
+
+    return FirstArgumentValid && SecondArgumentValid;
 }
+

@@ -57,3 +57,8 @@ std::string Parser::DefaultMessageRegisterUnknow(std::string target)
 {
     return "The register name does not exist.\nargument: " + target;
 }
+
+std::string Parser::DefaultMessageInvalidDecimalRange()
+{
+    return "The number of digits entered in the integer is greater than the 64-bit limit.";
+}

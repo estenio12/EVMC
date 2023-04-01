@@ -45,6 +45,7 @@ class Parser
         std::string DefaultMessageArgumentErro();
         std::string DefaultMessageOutOfAddressRange(std::string);
         std::string DefaultMessageRegisterUnknow(std::string);
+        std::string DefaultMessageInvalidDecimalRange();
 
     // # Syntax
     private:
@@ -53,6 +54,7 @@ class Parser
         bool SyntaxCheckerSingleCommandParameter(Data::Token_list );
         bool SyntaxCheckerDoubleAddressParameter(Data::Token_list );
         bool SyntaxCheckerDoubleRegisterParameter(Data::Token_list );
+        bool SyntaxCheckerDoubleMixedParameter(Data::Token_list );
 
     // # Semantic
     private:
@@ -60,6 +62,6 @@ class Parser
         bool SemanticCheckerSingleRegisterParameter(Data::Token_list );
         bool SemanticCheckerDoubleAddressParameter(Data::Token_list );
         bool SemanticCheckerDoubleRegisterParameter(Data::Token_list );
-        bool SemanticCheckerMixed(Data::Token_list );
+        bool SemanticCheckerDoubleMixedParameter(Data::Token_list );
 
 };

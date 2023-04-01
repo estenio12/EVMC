@@ -10,20 +10,19 @@ bool Parser::SyntaxCheck(Data::Token_list list)
         return false;
     }
 
-    if(this->SyntaxCheckerSingleAddressParameter(list)) return true;  
+    if(this->SyntaxCheckerSingleAddressParameter(list)) return true;
     if(this->SyntaxCheckerSingleRegisterParameter(list)) return true;  
     if(this->SyntaxCheckerSingleCommandParameter(list)) return true;  
     if(this->SyntaxCheckerDoubleAddressParameter(list)) return true;  
-    if(this->SyntaxCheckerDoubleRegisterParameter(list)) return true;  
+    if(this->SyntaxCheckerDoubleRegisterParameter(list)) return true;
+    if(this->SyntaxCheckerDoubleMixedParameter(list)) return true;
 
     return false;
 }
 
 bool Parser::SyntaxCheckerSingleAddressParameter(Data::Token_list list)
 {
-    if(list[COMMAND]->value == LANG::KEYWORDS[LANG::LDX] ||
-       list[COMMAND]->value == LANG::KEYWORDS[LANG::STX] ||
-       list[COMMAND]->value == LANG::KEYWORDS[LANG::JMP] ||
+    if(list[COMMAND]->value == LANG::KEYWORDS[LANG::JMP] ||
        list[COMMAND]->value == LANG::KEYWORDS[LANG::JSR] )
     {
         if(list.size() == 2)
@@ -151,4 +150,49 @@ bool Parser::SyntaxCheckerSingleCommandParameter(Data::Token_list list)
     return false;
 }
 
+bool Parser::SyntaxCheckerDoubleMixedParameter(Data::Token_list list)
+{
+    bool FirstArgumentValid  = false;
+    bool SecondArgumentValid = false;
+
+    if(list.size() == 3)
+    {
+        if(list[COMMAND]->value == LANG::KEYWORDS[LANG::LDX] )
+        {
+            if(list[FIRST_ARGUMENT]->type == NAME::HEXADECIMAL || 
+               list[FIRST_ARGUMENT]->type == NAME::DECIMAL )
+            {
+                FirstArgumentValid  = true;
+            }
+
+            if(list[SECOND_ARGUMENT]->type == NAME::REGISTER)
+            {
+                SecondArgumentValid = true;
+            }
+        }
+
+        
+        if(list[COMMAND]->value == LANG::KEYWORDS[LANG::STX] )
+        {
+            if(list[FIRST_ARGUMENT]->type == NAME::REGISTER)
+            {
+                FirstArgumentValid  = true;
+            }
+            
+            if(list[SECOND_ARGUMENT]->type == NAME::HEXADECIMAL || 
+               list[SECOND_ARGUMENT]->type == NAME::DECIMAL )
+            {
+                SecondArgumentValid = true;
+            }
+        }
+
+        this->ThrowError(this->BuildMessageFull(list), OUTPUTTYPE::IO_ERROR);
+    }
+    else
+    {
+        this->ThrowError(this->DefaultMessageArgumentErro(), OUTPUTTYPE::IO_ERROR);
+    }
+
+    return FirstArgumentValid && SecondArgumentValid;
+}
 

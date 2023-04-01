@@ -253,7 +253,9 @@ namespace DecimalConverter
     {
         if(value.empty()) return ERROR;
 
+        
         value = Tools::Split(value, 'X')[1];
+        std::cout << "entrei " << "\n";
 
         if(value.empty()) return ERROR;
         
@@ -328,6 +330,16 @@ namespace SemanticTools
     {
         if(target <= SETTING::MAX_ADDRESS &&
            target >= SETTING::MIN_ADDRESS )
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    static bool IsValidForConvert(std::string value)
+    {
+        if(value.length() <= 10 && value.length() >= 0)
         {
             return true;
         }

@@ -239,7 +239,6 @@ namespace BinaryConverter
                 bin += map.second;
             }
         }    
-        
 
         return bin;
     }

@@ -14,17 +14,7 @@ Data::Bin Parser::CodeGenerator(Data::Token_list list)
 
 Data::Bin Parser::CodeGenerateOpcodeNoArgument(Data::Token_list list)
 {
-    std::string opcode;
-
-    for(auto item : BINARYMAPPER::MNEMONICS)
-    {
-        if(item.first == list[COMMAND]->value)
-        {
-            opcode = item.second;
-        }
-    } 
-
-    return opcode;
+    return BinaryConverter::FromCommand(list[COMMAND]->value);
 }
 
 Data::Bin Parser::CodeGenerateOpcodeSingleArgument(Data::Token_list list)
@@ -33,26 +23,29 @@ Data::Bin Parser::CodeGenerateOpcodeSingleArgument(Data::Token_list list)
     std::string argument;
 
     // # Opcode
-    for(auto item : BINARYMAPPER::MNEMONICS)
-    {
-        if(item.first == list[COMMAND]->value)
-        {
-            opcode = item.second;
-        }
-    }
+    opcode = BinaryConverter::FromCommand(list[COMMAND]->value);
 
     // # First Argument
     if(list[FIRST_ARGUMENT]->type == NAME::HEXADECIMAL)
     {
-        argument = BinaryConverter::FromHexadecimal(list[FIRST_ARGUMENT]->value);
+        argument = Tools::ComplementBinaryTo64Bits
+        (
+            BinaryConverter::FromHexadecimal(list[FIRST_ARGUMENT]->value)
+        );
     }
     else if(list[FIRST_ARGUMENT]->type == NAME::DECIMAL)
     {
-        argument = BinaryConverter::FromDecimal(list[FIRST_ARGUMENT]->value);
+        argument = Tools::ComplementBinaryTo64Bits
+        (
+            BinaryConverter::FromDecimal(list[FIRST_ARGUMENT]->value)
+        );
     }
     else if(list[FIRST_ARGUMENT]->type == NAME::REGISTER)
     {
-        argument = BinaryConverter::FromDecimal(list[FIRST_ARGUMENT]->value);
+        argument = Tools::ComplementBinaryTo64Bits
+        (
+            BinaryConverter::FromRegister(list[FIRST_ARGUMENT]->value)
+        );
     }
 
     return opcode + argument;
@@ -65,40 +58,52 @@ Data::Bin Parser::CodeGenerateOpcodeDoubleArgument(Data::Token_list list)
     std::string SecondArgument;
 
     // # Opcode
-    for(auto item : BINARYMAPPER::MNEMONICS)
-    {
-        if(item.first == list[COMMAND]->value)
-        {
-            opcode = item.second;
-        }
-    }
+    opcode = BinaryConverter::FromCommand(list[COMMAND]->value);
 
     // # First Argument
     if(list[FIRST_ARGUMENT]->type == NAME::HEXADECIMAL)
     {
-        FirstArgument = BinaryConverter::FromHexadecimal(list[FIRST_ARGUMENT]->value);
+        FirstArgument = Tools::ComplementBinaryTo64Bits
+        (
+            BinaryConverter::FromHexadecimal(list[FIRST_ARGUMENT]->value)
+        );
     }
     else if(list[FIRST_ARGUMENT]->type == NAME::DECIMAL)
     {
-        FirstArgument = BinaryConverter::FromDecimal(list[FIRST_ARGUMENT]->value);
+        FirstArgument = Tools::ComplementBinaryTo64Bits
+        (
+            BinaryConverter::FromDecimal(list[FIRST_ARGUMENT]->value)
+        );
     }
     else if(list[FIRST_ARGUMENT]->type == NAME::REGISTER)
     {
-        FirstArgument = BinaryConverter::FromDecimal(list[FIRST_ARGUMENT]->value);
+        FirstArgument = Tools::ComplementBinaryTo64Bits
+        (
+            BinaryConverter::FromRegister(list[FIRST_ARGUMENT]->value)
+        );
     }
 
     // # Second Argument
     if(list[SECOND_ARGUMENT]->type == NAME::HEXADECIMAL)
     {
-        FirstArgument = BinaryConverter::FromHexadecimal(list[SECOND_ARGUMENT]->value);
+        FirstArgument = Tools::ComplementBinaryTo64Bits
+        (
+            BinaryConverter::FromHexadecimal(list[SECOND_ARGUMENT]->value)
+        );
     }
     else if(list[SECOND_ARGUMENT]->type == NAME::DECIMAL)
     {
-        FirstArgument = BinaryConverter::FromDecimal(list[SECOND_ARGUMENT]->value);
+        FirstArgument = Tools::ComplementBinaryTo64Bits
+        (
+            BinaryConverter::FromDecimal(list[SECOND_ARGUMENT]->value)
+        );
     }
     else if(list[SECOND_ARGUMENT]->type == NAME::REGISTER)
     {
-        FirstArgument = BinaryConverter::FromDecimal(list[SECOND_ARGUMENT]->value);
+        FirstArgument = Tools::ComplementBinaryTo64Bits
+        (
+            BinaryConverter::FromRegister(list[SECOND_ARGUMENT]->value)
+        );
     }
 
     return opcode + FirstArgument + SecondArgument;

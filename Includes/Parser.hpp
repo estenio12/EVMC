@@ -31,21 +31,11 @@ class Parser
         Data::Bin Parse(Data::Token_list );
 
     private:
-        // Data::Bin CodeGenerator(Data::Token_list );
+        Data::Bin CodeGenerator(Data::Token_list );
         bool SyntaxCheck(Data::Token_list );
         bool SematicCheck(Data::Token_list );
         void ThrowError(std::string, uint8_t );
         void PrintStackTrace();
-        std::string BuildMessageSingleArgument(Data::Token_list );
-        std::string BuildMessageFull(Data::Token_list);
-        std::string BuildMessageFullRegister(Data::Token_list);
-        std::string BuildMessageSingleRegister(Data::Token_list);
-        std::string BaseMessageRegister();
-        std::string BaseMessageAddress();
-        std::string DefaultMessageArgumentErro();
-        std::string DefaultMessageOutOfAddressRange(std::string);
-        std::string DefaultMessageRegisterUnknow(std::string);
-        std::string DefaultMessageInvalidDecimalRange();
 
     // # Syntax
     private:
@@ -63,5 +53,24 @@ class Parser
         bool SemanticCheckerDoubleAddressParameter(Data::Token_list );
         bool SemanticCheckerDoubleRegisterParameter(Data::Token_list );
         bool SemanticCheckerDoubleMixedParameter(Data::Token_list );
+
+    // # Code Generator
+    private:
+        Data::Bin CodeGenerateOpcodeSingleArgument(Data::Token_list );
+        Data::Bin CodeGenerateOpcodeDoubleArgument(Data::Token_list );
+        Data::Bin CodeGenerateOpcodeNoArgument(Data::Token_list );
+
+    // # Messages
+    private:
+        std::string BuildMessageSingleArgument(Data::Token_list );
+        std::string BuildMessageFull(Data::Token_list);
+        std::string BuildMessageFullRegister(Data::Token_list);
+        std::string BuildMessageSingleRegister(Data::Token_list);
+        std::string BaseMessageRegister();
+        std::string BaseMessageAddress();
+        std::string DefaultMessageArgumentErro();
+        std::string DefaultMessageOutOfAddressRange(std::string);
+        std::string DefaultMessageRegisterUnknow(std::string);
+        std::string DefaultMessageInvalidDecimalRange();
 
 };

@@ -9,8 +9,7 @@ Data::Bin Parser::Parse(Data::Token_list list)
     if(this->SyntaxCheck(list) &&
         this->SematicCheck(list))
     {
-        // return this->CodeGenerator(list);
-        Output::PrintSuccess("OK");
+        return this->CodeGenerator(list);
     }
     else
     {

@@ -1,10 +1,13 @@
 #include "../Includes/Assembler.hpp"
 
-Assembler::Assembler(std::string path):path(path)
+Assembler::Assembler(std::string path, std::string outputPath = ""):path(path)
 {
     this->lexer  = new Lexer();
     this->parser = new Parser(&this->lineCounter);
-    this->fileHandler.open(path, std::ios::in | std::ios::binary);
+    this->fileReader.open(path, std::ios::in | std::ios::binary);
+    
+    outputPath = this->CheckOutputPath(outputPath);
+    this->fileWriter.open(outputPath, std::ios::out | std::ios::binary | std::ios::app);
 }
 
 Assembler::~Assembler(){}
@@ -13,21 +16,22 @@ void Assembler::Run()
 {
     std::string line;
 
-    if(this->fileHandler.is_open() && 
-       this->fileHandler.good())
+    if(this->fileReader.is_open() && 
+       this->fileReader.good())
     {
-        while(std::getline(this->fileHandler, line))
+        while(std::getline(this->fileReader, line))
         {
             this->lineCounter++;
 
             if(this->IsNotEmptyLine(line))
             {
-                auto nline = this->SanitizerLine(line);
+                auto nline = this->SanitizeLine(line);
 
                 if(this->IsNotEmptyLine(nline))
                 {
                     auto token  = this->lexer->Tokenize(nline);
                     auto binary = this->parser->Parse(token);
+                    this->WriteBin(binary);
                 }
             }
         }
@@ -54,7 +58,7 @@ bool Assembler::IsNotEmptyLine(std::string line)
     return false;
 }
 
-std::string Assembler::SanitizerLine(std::string& line)
+std::string Assembler::SanitizeLine(std::string& line)
 {
     std::string nline;
 
@@ -88,6 +92,30 @@ std::string Assembler::SanitizerLine(std::string& line)
     }
 
     return nline;
+}
+
+void Assembler::WriteBin(Data::Bin binary)
+{
+    if(this->fileWriter.is_open() && this->fileWriter.good())
+    {
+        this->fileWriter.write(binary.c_str(), binary.size());
+    }
+    else
+    {
+        Output::PrintError("An error accured while trying to save the binary.");
+    }
+}
+
+std::string Assembler::CheckOutputPath(std::string path)
+{
+    std::string defaultAppName = "app.wbin";
+
+    if(path.empty())
+    {
+        return defaultAppName;
+    }
+
+    return path;
 }
 
 

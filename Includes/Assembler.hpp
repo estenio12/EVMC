@@ -15,7 +15,8 @@
 class Assembler
 {
     private:
-        std::fstream fileHandler;
+        std::ifstream fileReader;
+        std::ofstream fileWriter;
         std::string path;
 
     private:
@@ -26,7 +27,8 @@ class Assembler
         int lineCounter = 0;
 
     public:
-        Assembler(std::string path);
+        Assembler(std::string path,
+                  std::string outputPath);
         ~Assembler();
 
     public:
@@ -34,5 +36,7 @@ class Assembler
 
     private:
         bool IsNotEmptyLine(std::string );
-        std::string SanitizerLine(std::string& );
+        std::string SanitizeLine(std::string& );
+        void WriteBin(Data::Bin );
+        std::string CheckOutputPath(std::string );
 };

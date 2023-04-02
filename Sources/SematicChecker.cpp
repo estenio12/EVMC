@@ -61,7 +61,9 @@ bool Parser::SemanticCheckerDoubleRegisterParameter(Data::Token_list list)
        list[COMMAND]->value == LANG::KEYWORDS[LANG::NOT] ||
        list[COMMAND]->value == LANG::KEYWORDS[LANG::NAND]||
        list[COMMAND]->value == LANG::KEYWORDS[LANG::NOR] ||
-       list[COMMAND]->value == LANG::KEYWORDS[LANG::XNOR] )
+       list[COMMAND]->value == LANG::KEYWORDS[LANG::XNOR]||
+       list[COMMAND]->value == LANG::KEYWORDS[LANG::ROL] ||
+       list[COMMAND]->value == LANG::KEYWORDS[LANG::ROR] )
     {
         if(SemanticTools::IsValidRegisterFromSetting(DecimalConverter::FromRegister(list[FIRST_ARGUMENT]->value)))
         {
@@ -181,7 +183,8 @@ bool Parser::SemanticCheckerDoubleMixedParameter(Data::Token_list list)
     bool FirstArgumentValid  = false;
     bool SecondArgumentValid = false;
 
-    if(list[COMMAND]->value == LANG::KEYWORDS[LANG::LDX] )
+    if(list[COMMAND]->value == LANG::KEYWORDS[LANG::LDX] ||
+       list[COMMAND]->value == LANG::KEYWORDS[LANG::SET] )
     {
         if(list[FIRST_ARGUMENT]->type == NAME::HEXADECIMAL)
         {

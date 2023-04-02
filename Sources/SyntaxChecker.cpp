@@ -58,7 +58,9 @@ bool Parser::SyntaxCheckerDoubleRegisterParameter(Data::Token_list list)
        list[COMMAND]->value == LANG::KEYWORDS[LANG::NOT] ||
        list[COMMAND]->value == LANG::KEYWORDS[LANG::NAND]||
        list[COMMAND]->value == LANG::KEYWORDS[LANG::NOR] ||
-       list[COMMAND]->value == LANG::KEYWORDS[LANG::XNOR] )
+       list[COMMAND]->value == LANG::KEYWORDS[LANG::XNOR]|| 
+       list[COMMAND]->value == LANG::KEYWORDS[LANG::ROL] || 
+       list[COMMAND]->value == LANG::KEYWORDS[LANG::ROR] )
     {
         if(list.size() == 3)
         {
@@ -171,7 +173,6 @@ bool Parser::SyntaxCheckerDoubleMixedParameter(Data::Token_list list)
             }
         }
 
-        
         if(list[COMMAND]->value == LANG::KEYWORDS[LANG::STX] )
         {
             if(list[FIRST_ARGUMENT]->type == NAME::REGISTER)
@@ -184,6 +185,14 @@ bool Parser::SyntaxCheckerDoubleMixedParameter(Data::Token_list list)
             {
                 SecondArgumentValid = true;
             }
+        }
+
+        if(list[COMMAND]->value == LANG::KEYWORDS[LANG::SET] )
+        {
+            FirstArgumentValid  = list[FIRST_ARGUMENT]->type == NAME::DECIMAL || 
+                                  list[FIRST_ARGUMENT]->type == NAME::HEXADECIMAL ;
+
+            SecondArgumentValid = list[SECOND_ARGUMENT]->type == NAME::REGISTER;
         }
 
         this->ThrowError(this->BuildMessageFull(list), OUTPUTTYPE::IO_ERROR);

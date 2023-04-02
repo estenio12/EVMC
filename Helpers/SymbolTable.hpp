@@ -20,8 +20,9 @@ namespace BINARYMAPPER
         {"BEQ", "00001100"},{"BNE", "00001101"},{"BGT", "00001110"},
         {"BLT", "00001111"},{"BGE", "00010000"},{"BLE", "00010001"},
         {"CLR", "00010010"},{"OFF", "00010011"},{"AND", "00010100"},
-        {"OR", "00010101"}, {"XOR", "00010110"},{"NOT", "00010111"},
-        {"NAND", "00011000"},{"NOR", "00011001"},{"XNOR", "00011010"}
+        {"OR",  "00010101"},{"XOR", "00010110"},{"NOT", "00010111"},
+        {"NAND","00011000"},{"NOR", "00011001"},{"XNOR","00011010"},
+        {"SET", "00011011"},{"ROL", "00011100"},{"ROR", "00011110"}
     };
 
     static std::vector<std::pair<char, std::string>> HEXADECIMAL
@@ -77,7 +78,8 @@ namespace LANG
         "BLT", "BGE", "BLE", 
         "CLR", "OFF", "AND", 
         "OR",  "XOR", "NOT", 
-        "NAND", "NOR", "XNOR"
+        "NAND", "NOR", "XNOR",
+        "SET", "ROL", "ROR"
     };
 
     static const uint8_t NOP = 0;
@@ -115,6 +117,10 @@ namespace LANG
     static const uint8_t NAND = 24;
     static const uint8_t NOR  = 25;
     static const uint8_t XNOR = 26;
+
+    static const uint8_t SET = 27;
+    static const uint8_t ROL = 28;
+    static const uint8_t ROR = 29;
 
 }
 

@@ -10,10 +10,10 @@
 
 int main(int argc, char** argv)
 {
-    // std::string path = argv[1]; 
+    std::string path = argv[1]; 
 
-    // Assembler* compiler = new Assembler(path);
-    // compiler->Run();
+    Assembler* compiler = new Assembler(path);
+    compiler->Run();
 
     return EXIT_SUCCESS;
 }

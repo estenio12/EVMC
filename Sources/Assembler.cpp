@@ -1,13 +1,11 @@
 #include "../Includes/Assembler.hpp"
 
-Assembler::Assembler(std::string path, std::string outputPath = ""):path(path)
+Assembler::Assembler(std::string path):path(path)
 {
+    this->CheckOutputPath();
     this->lexer  = new Lexer();
     this->parser = new Parser(&this->lineCounter);
-    this->fileReader.open(path, std::ios::in | std::ios::binary);
-    
-    outputPath = this->CheckOutputPath(outputPath);
-    this->fileWriter.open(outputPath, std::ios::out | std::ios::binary | std::ios::app);
+    this->fileReader.open(path, std::fstream::in);
 }
 
 Assembler::~Assembler(){}
@@ -96,26 +94,34 @@ std::string Assembler::SanitizeLine(std::string& line)
 
 void Assembler::WriteBin(Data::Bin binary)
 {
+    this->fileWriter.open(outputPath, std::ios::out | std::ios::app);
+
     if(this->fileWriter.is_open() && this->fileWriter.good())
     {
-        this->fileWriter.write(binary.c_str(), binary.size());
+        if(!ProtocoloIsWritten)
+        {
+            ProtocoloIsWritten = true;
+            this->fileWriter << defaultProtocolo;
+        }
+            
+        this->fileWriter << binary;
     }
     else
     {
         Output::PrintError("An error accured while trying to save the binary.");
     }
+
+    this->fileWriter.close();
 }
 
-std::string Assembler::CheckOutputPath(std::string path)
+void Assembler::CheckOutputPath()
 {
-    std::string defaultAppName = "app.wbin";
+    auto path = std::filesystem::path(this->outputPath);
 
-    if(path.empty())
+    if(std::filesystem::exists(path))
     {
-        return defaultAppName;
+        std::filesystem::remove(path);
     }
-
-    return path;
 }
 
 

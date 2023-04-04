@@ -50,7 +50,7 @@ std::string Parser::DefaultMessageOutOfAddressRange(std::string target)
 {
     return "The address value passed is outside the supported address range. "
            "\nargument: " + target +
-           "\nMax address memory: " + std::to_string(SETTING::MAX_MEMORY);
+           "\nMax address memory: " + std::to_string(SETTING::MAX_ADDRESS);
 }
 
 std::string Parser::DefaultMessageRegisterUnknow(std::string target)

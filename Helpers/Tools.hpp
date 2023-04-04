@@ -69,7 +69,7 @@ namespace Tools
 
     static bool IsValidHexadecimal(std::string value)
     {
-        if(value.empty()) return false;
+        if(value.empty() || value[1] != 'X') return false;
 
         auto list = Tools::Split(value, 'X');
 
@@ -158,14 +158,17 @@ namespace Tools
         return true;
     }
 
-    static std::string ComplementBinaryTo64Bits(std::string value)
+    static std::string ComplementBinaryTo_8_Bits(std::string value)
     {
         std::string buildBin;
-        const int SIZE_64 = 64;
+        const int SIZE_8 = 8;
 
-        for(int i = 0; i <= (SIZE_64 - value.size()); i++)
+        if(value.size() >= SIZE_8) return value;
+        
+        for(int i = 0; i <= (SIZE_8 - value.size()); i++)
         {
             buildBin.push_back('0');
+            std::cout << i << ',' << std::endl;
         }
 
         return buildBin += value;

@@ -40,11 +40,10 @@ namespace OUTPUTTYPE
 
 namespace SETTING 
 {
-    static const int MAX_MEMORY   = 1048576;
+    static const int MAX_MEMORY   = 65536;
     static const int MAX_REGISTER = 31;
     static const int MIN_REGISTER = 0;
     static const int MAX_ADDRESS  = MAX_MEMORY - 1;
     static const int MIN_ADDRESS  = 0;
-    static const std::string TEMPLATE_64_BITS = "0000000000000000000000000000000000000000000000000000000000000000";
     static const std::string TEMPLATE_8_BITS  = "00000000";
 }

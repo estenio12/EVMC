@@ -28,21 +28,21 @@ Data::Bin Parser::CodeGenerateOpcodeSingleArgument(Data::Token_list list)
     // # First Argument
     if(list[FIRST_ARGUMENT]->type == NAME::HEXADECIMAL)
     {
-        argument = Tools::ComplementBinaryTo64Bits
+        argument = Tools::ComplementBinaryTo_8_Bits
         (
             BinaryConverter::FromHexadecimal(list[FIRST_ARGUMENT]->value)
         );
     }
     else if(list[FIRST_ARGUMENT]->type == NAME::DECIMAL)
     {
-        argument = Tools::ComplementBinaryTo64Bits
+        argument = Tools::ComplementBinaryTo_8_Bits
         (
             BinaryConverter::FromDecimal(list[FIRST_ARGUMENT]->value)
         );
     }
     else if(list[FIRST_ARGUMENT]->type == NAME::REGISTER)
     {
-        argument = Tools::ComplementBinaryTo64Bits
+        argument = Tools::ComplementBinaryTo_8_Bits
         (
             BinaryConverter::FromRegister(list[FIRST_ARGUMENT]->value)
         );
@@ -63,21 +63,21 @@ Data::Bin Parser::CodeGenerateOpcodeDoubleArgument(Data::Token_list list)
     // # First Argument
     if(list[FIRST_ARGUMENT]->type == NAME::HEXADECIMAL)
     {
-        FirstArgument = Tools::ComplementBinaryTo64Bits
+        FirstArgument = Tools::ComplementBinaryTo_8_Bits
         (
             BinaryConverter::FromHexadecimal(list[FIRST_ARGUMENT]->value)
         );
     }
     else if(list[FIRST_ARGUMENT]->type == NAME::DECIMAL)
     {
-        FirstArgument = Tools::ComplementBinaryTo64Bits
+        FirstArgument = Tools::ComplementBinaryTo_8_Bits
         (
             BinaryConverter::FromDecimal(list[FIRST_ARGUMENT]->value)
         );
     }
     else if(list[FIRST_ARGUMENT]->type == NAME::REGISTER)
     {
-        FirstArgument = Tools::ComplementBinaryTo64Bits
+        FirstArgument = Tools::ComplementBinaryTo_8_Bits
         (
             BinaryConverter::FromRegister(list[FIRST_ARGUMENT]->value)
         );
@@ -86,25 +86,29 @@ Data::Bin Parser::CodeGenerateOpcodeDoubleArgument(Data::Token_list list)
     // # Second Argument
     if(list[SECOND_ARGUMENT]->type == NAME::HEXADECIMAL)
     {
-        FirstArgument = Tools::ComplementBinaryTo64Bits
+        SecondArgument = Tools::ComplementBinaryTo_8_Bits
         (
             BinaryConverter::FromHexadecimal(list[SECOND_ARGUMENT]->value)
         );
     }
     else if(list[SECOND_ARGUMENT]->type == NAME::DECIMAL)
     {
-        FirstArgument = Tools::ComplementBinaryTo64Bits
+        SecondArgument = Tools::ComplementBinaryTo_8_Bits
         (
             BinaryConverter::FromDecimal(list[SECOND_ARGUMENT]->value)
         );
     }
     else if(list[SECOND_ARGUMENT]->type == NAME::REGISTER)
     {
-        FirstArgument = Tools::ComplementBinaryTo64Bits
+        SecondArgument = Tools::ComplementBinaryTo_8_Bits
         (
             BinaryConverter::FromRegister(list[SECOND_ARGUMENT]->value)
         );
     }
+
+    std::cout << "debug: " << opcode << " | ";
+    std::cout << FirstArgument << " | ";
+    std::cout << SecondArgument << '\n';
 
     return opcode + FirstArgument + SecondArgument;
 }

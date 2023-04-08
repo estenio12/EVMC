@@ -12,6 +12,7 @@
 #include <cmath>
 
 #include "../Helpers/SymbolTable.hpp"
+#include "../Helpers/Definition.hpp"
 
 namespace Tools
 {
@@ -254,10 +255,8 @@ namespace DecimalConverter
     static int FromHexadecimal(std::string value)
     {
         if(value.empty()) return ERROR;
-
         
         value = Tools::Split(value, 'X')[1];
-        std::cout << "entrei " << "\n";
 
         if(value.empty()) return ERROR;
         

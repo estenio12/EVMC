@@ -32,8 +32,7 @@ class Assembler
 
     private:
         // # first 24 byte is signature
-        // # the last 2 bytes is module, exemple: 00 = 64 bits architecture
-        const std::string defaultProtocolo = "01100101011101100110110100";
+        const std::string defaultProtocolo = "011001010111011001101101";
 
     public:
         Assembler(std::string path);

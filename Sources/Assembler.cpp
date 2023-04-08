@@ -33,6 +33,8 @@ void Assembler::Run()
                 }
             }
         }
+
+        this->WriteBin(BinaryConverter::FromCommand("OFF"));
     }
     else
     {
@@ -104,7 +106,7 @@ void Assembler::WriteBin(Data::Bin binary)
             this->fileWriter << defaultProtocolo;
         }
             
-        this->fileWriter << binary;
+        this->fileWriter << binary << '|';
     }
     else
     {

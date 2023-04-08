@@ -22,7 +22,7 @@ namespace Delimiter
     const char returning  = '\r';
     const char tabulation = '\t';
     const char newline    = '\n';
-    const char backslash    = '/';
+    const char backslash  = '/';
 }
 
 namespace Result

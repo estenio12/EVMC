@@ -106,10 +106,6 @@ Data::Bin Parser::CodeGenerateOpcodeDoubleArgument(Data::Token_list list)
         );
     }
 
-    std::cout << "debug: " << opcode << " | ";
-    std::cout << FirstArgument << " | ";
-    std::cout << SecondArgument << '\n';
-
     return opcode + FirstArgument + SecondArgument;
 }
 

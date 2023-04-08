@@ -22,7 +22,8 @@ namespace BINARYMAPPER
         {"CLR", "00010010"},{"OFF", "00010011"},{"AND", "00010100"},
         {"OR",  "00010101"},{"XOR", "00010110"},{"NOT", "00010111"},
         {"NAND","00011000"},{"NOR", "00011001"},{"XNOR","00011010"},
-        {"SET", "00011011"},{"ROL", "00011100"},{"ROR", "00011110"}
+        {"SET", "00011011"},{"ROL", "00011100"},{"ROR", "00011110"},
+        {"PRT", "00011110"},{"INP", "00011111"},
     };
 
     static std::vector<std::pair<char, std::string>> HEXADECIMAL
@@ -79,7 +80,8 @@ namespace LANG
         "CLR", "OFF", "AND", 
         "OR",  "XOR", "NOT", 
         "NAND", "NOR", "XNOR",
-        "SET", "ROL", "ROR"
+        "SET", "ROL", "ROR",
+        "PRT", "INP", 
     };
 
     static const uint8_t NOP = 0;
@@ -121,6 +123,9 @@ namespace LANG
     static const uint8_t SET = 27;
     static const uint8_t ROL = 28;
     static const uint8_t ROR = 29;
+
+    static const uint8_t PRT = 30;
+    static const uint8_t INP = 31;
 
 }
 

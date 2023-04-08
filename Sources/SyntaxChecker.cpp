@@ -23,7 +23,8 @@ bool Parser::SyntaxCheck(Data::Token_list list)
 bool Parser::SyntaxCheckerSingleAddressParameter(Data::Token_list list)
 {
     if(list[COMMAND]->value == LANG::KEYWORDS[LANG::JMP] ||
-       list[COMMAND]->value == LANG::KEYWORDS[LANG::JSR] )
+       list[COMMAND]->value == LANG::KEYWORDS[LANG::JSR] ||
+       list[COMMAND]->value == LANG::KEYWORDS[LANG::INP]  )
     {
         if(list.size() == 2)
         {
@@ -88,7 +89,8 @@ bool Parser::SyntaxCheckerDoubleAddressParameter(Data::Token_list list)
        list[COMMAND]->value == LANG::KEYWORDS[LANG::BGT] ||
        list[COMMAND]->value == LANG::KEYWORDS[LANG::BLT] ||
        list[COMMAND]->value == LANG::KEYWORDS[LANG::BGE] ||
-       list[COMMAND]->value == LANG::KEYWORDS[LANG::BLE] )
+       list[COMMAND]->value == LANG::KEYWORDS[LANG::BLE] ||
+       list[COMMAND]->value == LANG::KEYWORDS[LANG::PRT] )
     {
         if(list.size() == 3)
         {

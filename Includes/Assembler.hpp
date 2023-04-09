@@ -27,7 +27,7 @@ class Assembler
     
     private:
         int lineCounter = 0;
-        const std::string outputPath = "app.wbin";
+        const std::string outputPath = "app.bin";
         bool ProtocoloIsWritten = false;
 
     private:

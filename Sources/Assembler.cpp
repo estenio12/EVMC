@@ -105,8 +105,9 @@ void Assembler::WriteBin(Data::Bin binary)
             ProtocoloIsWritten = true;
             this->fileWriter << defaultProtocolo;
         }
-            
-        this->fileWriter << binary << '|';
+
+        binary.push_back('|');
+        this->fileWriter.write(binary.c_str(), binary.size());
     }
     else
     {

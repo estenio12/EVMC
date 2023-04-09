@@ -169,7 +169,6 @@ namespace Tools
         for(int i = 0; i <= (SIZE_8 - value.size()); i++)
         {
             buildBin.push_back('0');
-            std::cout << i << ',' << std::endl;
         }
 
         return buildBin += value;

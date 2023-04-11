@@ -179,7 +179,7 @@ namespace Tools
         std::string buildBin;
         const int SIZE_16 = 16;
 
-        if(value.size() < SIZE_16) return value.substr(0, 7);
+        if(value.size() > SIZE_16) return value.substr(0, 15);
         
         for(int i = 0; i < (SIZE_16 - value.size()); i++)
         {

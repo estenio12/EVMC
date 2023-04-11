@@ -59,6 +59,7 @@ class Parser
         Data::Bin CodeGenerateOpcodeSingleArgument(Data::Token_list );
         Data::Bin CodeGenerateOpcodeDoubleArgument(Data::Token_list );
         Data::Bin CodeGenerateOpcodeNoArgument(Data::Token_list );
+        Data::Bin CodeGenerateHexadecimal(std::string opcode, std::string hexadecimal);
 
     // # Messages
     private:

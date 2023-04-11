@@ -28,24 +28,15 @@ Data::Bin Parser::CodeGenerateOpcodeSingleArgument(Data::Token_list list)
     // # First Argument
     if(list[FIRST_ARGUMENT]->type == NAME::HEXADECIMAL)
     {
-        argument = Tools::ComplementBinaryTo_8_Bits
-        (
-            BinaryConverter::FromHexadecimal(list[FIRST_ARGUMENT]->value)
-        );
+        argument = this->CodeGenerateHexadecimal(list[COMMAND]->value, list[FIRST_ARGUMENT]->value);
     }
     else if(list[FIRST_ARGUMENT]->type == NAME::DECIMAL)
     {
-        argument = Tools::ComplementBinaryTo_8_Bits
-        (
-            BinaryConverter::FromDecimal(list[FIRST_ARGUMENT]->value)
-        );
+        argument = BinaryConverter::FromDecimal(list[FIRST_ARGUMENT]->value);
     }
     else if(list[FIRST_ARGUMENT]->type == NAME::REGISTER)
     {
-        argument = Tools::ComplementBinaryTo_8_Bits
-        (
-            BinaryConverter::FromRegister(list[FIRST_ARGUMENT]->value)
-        );
+        argument = BinaryConverter::FromRegister(list[FIRST_ARGUMENT]->value);
     }
 
     return opcode + argument;
@@ -63,50 +54,42 @@ Data::Bin Parser::CodeGenerateOpcodeDoubleArgument(Data::Token_list list)
     // # First Argument
     if(list[FIRST_ARGUMENT]->type == NAME::HEXADECIMAL)
     {
-        FirstArgument = Tools::ComplementBinaryTo_8_Bits
-        (
-            BinaryConverter::FromHexadecimal(list[FIRST_ARGUMENT]->value)
-        );
+        FirstArgument = this->CodeGenerateHexadecimal(list[COMMAND]->value, 
+                                                      list[FIRST_ARGUMENT]->value);
     }
     else if(list[FIRST_ARGUMENT]->type == NAME::DECIMAL)
     {
-        FirstArgument = Tools::ComplementBinaryTo_8_Bits
-        (
-            BinaryConverter::FromDecimal(list[FIRST_ARGUMENT]->value)
-        );
+        FirstArgument = BinaryConverter::FromDecimal(list[FIRST_ARGUMENT]->value);
     }
     else if(list[FIRST_ARGUMENT]->type == NAME::REGISTER)
     {
-        FirstArgument = Tools::ComplementBinaryTo_8_Bits
-        (
-            BinaryConverter::FromRegister(list[FIRST_ARGUMENT]->value)
-        );
+        FirstArgument = BinaryConverter::FromRegister(list[FIRST_ARGUMENT]->value);
     }
 
     // # Second Argument
     if(list[SECOND_ARGUMENT]->type == NAME::HEXADECIMAL)
     {
-        SecondArgument = Tools::ComplementBinaryTo_8_Bits
-        (
-            BinaryConverter::FromHexadecimal(list[SECOND_ARGUMENT]->value)
-        );
+        SecondArgument = this->CodeGenerateHexadecimal(list[COMMAND]->value, 
+                                                       list[SECOND_ARGUMENT]->value);
     }
     else if(list[SECOND_ARGUMENT]->type == NAME::DECIMAL)
     {
-        SecondArgument = Tools::ComplementBinaryTo_8_Bits
-        (
-            BinaryConverter::FromDecimal(list[SECOND_ARGUMENT]->value)
-        );
+        SecondArgument = BinaryConverter::FromDecimal(list[SECOND_ARGUMENT]->value);
     }
     else if(list[SECOND_ARGUMENT]->type == NAME::REGISTER)
     {
-        SecondArgument = Tools::ComplementBinaryTo_8_Bits
-        (
-            BinaryConverter::FromRegister(list[SECOND_ARGUMENT]->value)
-        );
+        SecondArgument = BinaryConverter::FromRegister(list[SECOND_ARGUMENT]->value);
     }
 
     return opcode + FirstArgument + SecondArgument;
 }
 
+Data::Bin Parser::CodeGenerateHexadecimal(std::string opcode, std::string hexadecimal)
+{
+    if(opcode == LANG::KEYWORDS[LANG::SET])
+    {
+        return BinaryConverter::FromHexadecimal_8_Bits(hexadecimal);
+    }
 
+    return BinaryConverter::FromHexadecimal_16_Bits(hexadecimal);
+}

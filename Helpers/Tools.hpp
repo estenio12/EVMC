@@ -164,9 +164,24 @@ namespace Tools
         std::string buildBin;
         const int SIZE_8 = 8;
 
-        if(value.size() >= SIZE_8) return value;
+        if(value.size() > SIZE_8) return value.substr(0, 7);
         
-        for(int i = 0; i <= (SIZE_8 - value.size()); i++)
+        for(int i = 0; i < (SIZE_8 - value.size()); i++)
+        {
+            buildBin.push_back('0');
+        }
+
+        return buildBin += value;
+    }
+
+    static std::string ComplementBinaryTo_16_Bits(std::string value)
+    {
+        std::string buildBin;
+        const int SIZE_16 = 16;
+
+        if(value.size() < SIZE_16) return value.substr(0, 7);
+        
+        for(int i = 0; i < (SIZE_16 - value.size()); i++)
         {
             buildBin.push_back('0');
         }
@@ -177,7 +192,7 @@ namespace Tools
 
 namespace BinaryConverter
 {
-    static std::string FromHexadecimal(std::string value)
+    static std::string FromHexadecimal_8_Bits(std::string value)
     {
         std::string bin;
         value = Tools::Split(value, 'X')[1];
@@ -193,25 +208,48 @@ namespace BinaryConverter
             }    
         }
 
-        return bin;
+        return Tools::ComplementBinaryTo_8_Bits(bin);
+    }
+
+    static std::string FromHexadecimal_16_Bits(std::string value)
+    {
+        std::string bin;
+        value = Tools::Split(value, 'X')[1];
+
+        for(char letter : value)
+        {
+            for(auto map : BINARYMAPPER::HEXADECIMAL)
+            {
+                if(letter == map.first)
+                {
+                    bin += map.second;
+                }
+            }    
+        }
+
+        return Tools::ComplementBinaryTo_16_Bits(bin);
     }
 
     static std::string FromDecimal(std::string value)
     {
-        std::string buildBin;
-        std::string bin;
+        std::string buildBin = "";
+        std::string bin = "";
         int nval = std::stoi(value);
-    
-        while(nval > 0)
+
+        while(nval >= 0)
         {
             buildBin.push_back(BINARYMAPPER::BIT(nval % 2));
             nval /= 2;
+
+            if(nval == 0) break;
         }
 
-        for(int i = buildBin.size(); i >= 0; i--)
+        for(int i = buildBin.size() - 1; i >= 0; i--)
         {
             bin.push_back(buildBin[i]);
         }
+
+        bin = Tools::ComplementBinaryTo_8_Bits(bin);
 
         return bin;
     }
